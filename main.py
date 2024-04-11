@@ -55,11 +55,11 @@ def batch_convert_docx_to_pdf(file_list, output_folder = None):
         os.makedirs(output_folder)
 
     try:
-        print("Converting doc to PDF files")
+        print("Converting docx to PDF:")
 
         for docx_path in file_list:
             pdf_path = os.path.join(output_folder, f'{os.path.splitext(os.path.basename(docx_path))[0]}.pdf')
-            print('Converting file: * ' + pdf_path)
+            print(' * ' + pdf_path)
             convert_docx_to_pdf(docx_path, pdf_path)
     except Exception as e:
         print("Something went wrong in printing, see:  ", e)
@@ -68,15 +68,15 @@ def batch_convert_docx_to_pdf(file_list, output_folder = None):
 def list_files(folder_path, extensions=['.docx']):
     files = []
     try:
-        for file_name in os.listdir(folder_path):
-            if any(file_name.endswith(ext) for ext in extensions):
-                file_path = os.path.join(folder_path, file_name)
-                print(file_path)
-                files.append(file_path)
+        for root, _, filenames in os.walk(folder_path):
+            for filename in filenames:
+                if any(filename.endswith(ext) for ext in extensions):
+                    file_path = os.path.join(root, filename)
+                    print(file_path)
+                    files.append(file_path)
     except Exception as e:
         print('Files could not be located, see:', e)
     return files
-
 
 def run_program(args):
 
